@@ -1,0 +1,65 @@
+a)
+
+function thres = intermeans_9(im)
+
+%Implements a intermeans algorithm and computes a threshold for binarizing an image
+
+ 
+
+ 
+
+thres = round(uint8(mean2(im)));
+
+thres_prev = thres + 1;
+
+ 
+
+while thres_prev ~= thres
+
+    thres_prev = thres;
+
+    [h,D]=imhist(im);
+
+    meanLo = sum(D(1:thres_prev).*h(1:thres_prev))/sum(h(1:thres_prev));
+
+    meanHi = sum(D(double(thres_prev+1):max(D)+1).*h(double(thres_prev)+1:max(D)+1))/sum(h(double(thres_prev+1):max(D)+1));
+
+    thres = round(( meanLo + meanHi ) / 2);
+
+end
+
+ 
+
+thres = thres/max((D));
+
+ 
+
+ 
+
+ 
+
+b) thres = 0.5137
+
+ 
+
+c) Graylevels associated with the rice grains that are near the bottom of the picture are lower than the defined threshold - it may seem like the rice grains are relatively "white" due to stark contrast with the darker background, but they have lower grayscale values than the threshold
+
+ 
+
+d)
+
+>> max(bwlabel(bw),[],'all')
+
+The total number of grain counted by MATLAB is 151
+
+ 
+
+e)
+
+you need to write a brief summary for bwareaopen()
+
+>> bw2 = bwareaopen(bw, 5);
+
+>> max(bwlabel(bw2), [], 'all')
+
+The total number of grain counted using bwlabel function after noices being eliminated is 97
